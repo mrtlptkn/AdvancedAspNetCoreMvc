@@ -1,0 +1,7 @@
+/* Genel düzen ve bileşen stilleri Tailwind'e taşındı (bkz. Styles/tailwind.css ve README.md).
+   Bu dosyada yalnızca Tailwind'de karşılığı olmayan, jQuery Validation'ın eklediği sınıflar kalır. */
+
+.field-validation-error {
+    color: #b00020;
+    font-size: 0.9rem;
+}

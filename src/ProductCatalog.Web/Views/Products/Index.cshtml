@@ -1,0 +1,24 @@
+@model ProductListViewModel
+@{
+    ViewData["Title"] = Localizer["ProductsTitle"].Value;
+    ViewData["MetaDescription"] = Localizer["MetaDescriptionDefault"].Value;
+}
+
+<h1 class="mb-6 text-2xl font-bold tracking-tight">@Localizer["ProductsTitle"]</h1>
+
+<form id="filter-form" method="get" asp-action="Index"
+      class="mb-6 flex flex-wrap gap-3"
+      data-list-url="@Url.Action("ProductList", "Products")"
+      data-error-text="@Localizer["ListError"]">
+    <input class="input sm:w-64" type="search" name="search" value="@Model.Search" placeholder="@Localizer["SearchPlaceholder"]" />
+    <input class="input sm:w-48" type="text" name="category" value="@Model.Category" placeholder="@Localizer["CategoryPlaceholder"]" />
+    <button class="btn-primary" type="submit">@Localizer["Filter"]</button>
+</form>
+
+<div id="product-list" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <partial name="_ProductList" model="Model" />
+</div>
+
+@section Scripts {
+    <script src="~/js/products.js" asp-append-version="true"></script>
+}

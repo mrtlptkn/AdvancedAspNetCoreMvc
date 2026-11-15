@@ -1,0 +1,28 @@
+/* Tailwind CSS v4 girdi dosyası.
+   Derlenmiş çıktı: wwwroot/css/tailwind.css (npm run build:css ile üretilir). */
+@import "tailwindcss";
+
+/* Tailwind, class adlarını bu kaynaklarda arar. Yeni bir klasör eklerseniz buraya ekleyin. */
+@source "../Views";
+@source "../Controllers";
+@source "../wwwroot/js";
+
+/* Tekrar eden öğeler için ortak bileşen sınıfları.
+   Views içinde class="btn-primary" ya da class="input" olarak kullanılır. */
+@layer components {
+  .btn-primary {
+    @apply rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100;
+  }
+
+  .input {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200;
+  }
+
+  .link {
+    @apply text-blue-700 underline-offset-2 hover:underline;
+  }
+}

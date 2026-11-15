@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if (ViewData["MetaDescription"] is string metaDescription)
+    {
+        <meta name="description" content="@metaDescription" />
+    }
+    <title>@ViewData["Title"] - @Localizer["SiteName"]</title>
+    <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="min-h-screen bg-gray-50 font-sans text-gray-900 antialiased"
+      data-cart-error="@Localizer["CartError"]"
+      data-cart-add-url="@Url.Action("Add", "Cart")"
+      data-cart-remove-url="@Url.Action("Remove", "Cart")">
+    @Html.AntiForgeryToken()
+    <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 bg-white px-4 py-3 shadow-sm sm:px-8">
+        <a class="font-semibold text-gray-900 hover:text-blue-700" asp-controller="Home" asp-action="Index">@Localizer["NavHome"]</a>
+        <a class="text-gray-700 hover:text-blue-700" asp-controller="Products" asp-action="Index">@Localizer["NavProducts"]</a>
+        <a class="text-gray-700 hover:text-blue-700" asp-controller="Products" asp-action="Create">@Localizer["NavNewProduct"]</a>
+        <a class="text-gray-700 hover:text-blue-700" asp-controller="Cart" asp-action="Index">@Localizer["NavCart"]: @await Component.InvokeAsync("CartBadge")</a>
+        <span class="ml-auto text-sm text-gray-500">
+            @await Component.InvokeAsync("LanguageSwitcher")
+        </span>
+    </nav>
+
+    <main class="mx-auto max-w-5xl px-4 py-8 sm:px-8">
+        @RenderBody()
+    </main>
+
+    <!-- Client validation ve AJAX için (üretimde wwwroot'a kopyalanıp yerelden servis edilmeli) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/cart.jquery.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProductCatalog.Services\ProductCatalog.Services.csproj" />
+    <ProjectReference Include="..\ProductCatalog.Data\ProductCatalog.Data.csproj" />
+  </ItemGroup>
+
+  <!-- Yerelleştirme kaynakları: AddLocalization(ResourcesPath = "Resources") ile eşleşen adlar.
+       Bu adlar olmadan kaynaklar bulunamaz ve sayfa anahtar adlarını gösterir. -->
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResource.resx" LogicalName="ProductCatalog.Web.Resources.SharedResource.resources">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResource.en-US.resx" LogicalName="ProductCatalog.Web.Resources.SharedResource.en-US.resources" />
+  </ItemGroup>
+
+
+</Project>

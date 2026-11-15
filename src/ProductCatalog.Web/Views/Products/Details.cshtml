@@ -1,0 +1,33 @@
+@using ProductCatalog.Web.Localization
+@model ProductDetailsViewModel
+@{
+    var name = Model.Product.LocalizedName();
+    var description = Model.Product.LocalizedDescription();
+    ViewData["Title"] = name;
+    ViewData["MetaDescription"] = string.IsNullOrWhiteSpace(description)
+        ? Localizer["MetaDescriptionDefault"].Value
+        : description;
+}
+
+<h1 class="mb-4 text-2xl font-bold tracking-tight">@name</h1>
+<div class="max-w-2xl space-y-2">
+    <p class="text-gray-600">@Localizer["CategoryLabel"]: @Model.Product.LocalizedCategory()</p>
+    <p class="text-lg font-medium">@Localizer["PriceLabel"]: @Model.Product.Price.ToString("C")</p>
+    <p class="leading-relaxed">@description</p>
+</div>
+
+<div class="mt-6 flex items-center gap-4">
+    <button type="button" class="add-to-cart btn-primary" data-product-id="@Model.Product.Id">@Localizer["AddToCart"]</button>
+    <a class="link" asp-action="Index">@Localizer["BackToProducts"]</a>
+</div>
+
+@if (Model.RecentlyViewed.Count > 0)
+{
+    <h2 class="mb-4 mt-10 text-xl font-semibold">@Localizer["RecentlyViewed"]</h2>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach (var item in Model.RecentlyViewed)
+        {
+            <partial name="_ProductCard" model="item" />
+        }
+    </div>
+}

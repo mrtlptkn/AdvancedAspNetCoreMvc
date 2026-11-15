@@ -1,0 +1,13 @@
+@model ProductListViewModel
+
+@if (Model.Products.Count == 0)
+{
+    <p>@Localizer["NoProducts"]</p>
+}
+else
+{
+    foreach (var product in Model.Products)
+    {
+        <partial name="_ProductCard" model="product" />
+    }
+}

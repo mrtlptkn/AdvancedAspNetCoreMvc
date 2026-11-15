@@ -1,0 +1,13 @@
+{
+  "name": "productcatalog-web-assets",
+  "private": true,
+  "description": "ProductCatalog.Web için Tailwind CSS derleme betikleri. Ayrıntılar: README.md",
+  "scripts": {
+    "build:css": "tailwindcss -i ./Styles/tailwind.css -o ./wwwroot/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./Styles/tailwind.css -o ./wwwroot/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "tailwindcss": "4.3.3"
+  }
+}

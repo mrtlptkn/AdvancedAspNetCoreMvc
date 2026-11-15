@@ -1,0 +1,7 @@
+@model LanguageSwitcherViewModel
+@{
+    Layout = null;
+}
+<a class="@(Model.CurrentCulture == "tr-TR" ? "font-semibold text-blue-700" : "hover:text-blue-700")" aria-current="@(Model.CurrentCulture == "tr-TR" ? "true" : null)" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="tr-TR" asp-route-returnUrl="@Model.ReturnUrl">TR</a>
+<span class="mx-1">|</span>
+<a class="@(Model.CurrentCulture == "en-US" ? "font-semibold text-blue-700" : "hover:text-blue-700")" aria-current="@(Model.CurrentCulture == "en-US" ? "true" : null)" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en-US" asp-route-returnUrl="@Model.ReturnUrl">EN</a>

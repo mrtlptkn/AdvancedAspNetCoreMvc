@@ -1,0 +1,11 @@
+@using ProductCatalog.Web.Localization
+@model Product
+
+<div class="product-card flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md">
+    <h3 class="text-lg font-semibold leading-snug">
+        <a class="link" asp-action="Details" asp-route-slug="@Model.Slug">@Model.LocalizedName()</a>
+    </h3>
+    <p class="text-sm text-gray-500">@Model.LocalizedCategory()</p>
+    <p class="text-base font-medium">@Model.Price.ToString("C")</p>
+    <button type="button" class="add-to-cart btn-primary mt-auto text-sm" data-product-id="@Model.Id">@Localizer["AddToCart"]</button>
+</div>
