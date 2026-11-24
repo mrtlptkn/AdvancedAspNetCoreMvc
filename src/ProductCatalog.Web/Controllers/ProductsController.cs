@@ -136,7 +136,7 @@ public class ProductsController : Controller
     /// </summary>
     private async Task<ProductListViewModel> BuildListAsync(string? category, string? search, CancellationToken ct)
     {
-        var items = await _products.GetProductsAsync(category, search, ct);
+        var items = await _products.GetProductsAsync(category, search, ct); // ProductService
 
         return new ProductListViewModel
         {

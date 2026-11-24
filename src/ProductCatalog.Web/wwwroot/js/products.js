@@ -23,8 +23,10 @@
             }
 
             list.innerHTML = await response.text();
+            console.log('partialView Result',list.innerHTML);
             history.replaceState(null, "", `${window.location.pathname}?${params}`);
         } catch (error) {
+          console.log("error",error)
             list.textContent = errorText;
         }
     }

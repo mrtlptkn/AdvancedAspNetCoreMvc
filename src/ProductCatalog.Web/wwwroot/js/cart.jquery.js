@@ -22,6 +22,7 @@ $(function () {
     }
 
     $(document).on("click", ".add-to-cart", function () {
+      // data-product="1" // ProductId
         const productId = Number($(this).data("productId"));
 
         postJson($("body").data("cartAddUrl"), { productId: productId, quantity: 1 })

@@ -23,14 +23,14 @@ builder.Services.AddMemoryCache();
 // HTTPS'te yalnızca statik dosyalar (/css, /js) sıkıştırılır; bkz. app.UseWhen aşağıda.
 builder.Services.AddResponseCompression(options =>
 {
-    options.EnableForHttps = true; // Sadece UseWhen dalında çalışır; dinamik HTTPS yanıtları bu dala girmez
-    options.Providers.Add<BrotliCompressionProvider>();
-    options.Providers.Add<GzipCompressionProvider>();
-    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
+  options.EnableForHttps = true; // Sadece UseWhen dalında çalışır; dinamik HTTPS yanıtları bu dala girmez
+  options.Providers.Add<BrotliCompressionProvider>();
+  options.Providers.Add<GzipCompressionProvider>();
+  options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json","application/html" });
 });
 builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
 {
-    options.Level = CompressionLevel.Fastest;
+  options.Level = CompressionLevel.Fastest;
 });
 
 // Yerelleştirme: TR varsayılan, EN destekli. Metinler Resources/SharedResource*.resx içinde.
@@ -52,7 +52,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 // Sepet için session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor(); // IHttpContextAccessor erişim için bu servisi DI eklemeniz lazım. 
 
 // Katmanlar (DI)
 builder.Services.AddSingleton<ProductChangeNotifier>();
@@ -71,9 +71,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 // Sıkıştırma: HTTP'de her yanıt; HTTPS'te yalnızca statik dosyalar.
 // Dinamik HTTPS sayfaları (gizli token içerenler) BREACH riskine karşı sıkıştırılmaz.
-app.UseWhen(
-    ctx => !ctx.Request.IsHttps || IsStaticPath(ctx.Request.Path),
-    branch => branch.UseResponseCompression());
+//app.UseWhen(
+//    ctx => !ctx.Request.IsHttps || IsStaticPath(ctx.Request.Path),
+//    branch => branch.UseResponseCompression());
+
+app.UseResponseCompression();
 
 app.UseStaticFiles();
 app.UseMiddleware<CultureRedirectMiddleware>();

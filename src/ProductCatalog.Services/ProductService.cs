@@ -11,7 +11,7 @@ public class ProductService : IProductService
 
     private readonly IProductRepository _repository;
     private readonly IMemoryCache _cache;
-    private readonly ProductChangeNotifier _notifier;
+    private readonly ProductChangeNotifier _notifier; // Inmemory yaklaşımlarda cache bozmak için bir yöntem olmadığında istek iptali ile çözüm yapılmış.
 
     public ProductService(IProductRepository repository, IMemoryCache cache, ProductChangeNotifier notifier)
     {
@@ -26,11 +26,12 @@ public class ProductService : IProductService
 
         IEnumerable<Product> query = all;
 
+    // cachelenmiş veri üszerinde filtreleme
         if (!string.IsNullOrWhiteSpace(category))
-            query = query.Where(p => p.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(p => p.Category.Equals(category, StringComparison.OrdinalIgnoreCase) || p.CategoryEn.Equals(category,StringComparison.OrdinalIgnoreCase));
 
         if (!string.IsNullOrWhiteSpace(search))
-            query = query.Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase) || p.NameEn.Contains(search, StringComparison.OrdinalIgnoreCase));
 
         return query.ToList();
     }
@@ -57,11 +58,12 @@ public class ProductService : IProductService
     // Tüm ürünler önbellekten okunur; girdi 5 dakika sonra ya da ürün değişince yenilenir.
     private Task<IReadOnlyList<Product>> GetAllCachedAsync(CancellationToken ct)
     {
+    // key varsa cacheden döner
         return _cache.GetOrCreateAsync(AllProductsKey, entry =>
         {
-            entry.AbsoluteExpirationRelativeToNow = CacheDuration;
-            entry.AddExpirationToken(_notifier.GetChangeToken());
-            return _repository.GetAllAsync(ct);
+            entry.AbsoluteExpirationRelativeToNow = CacheDuration; // 5 minutes
+            entry.AddExpirationToken(_notifier.GetChangeToken()); // eğer 5 dakika dolarsa  _notifier.GetChangeToken() methodu ile event fırlat cache boz.
+          return _repository.GetAllAsync(ct); // içeriği data katmanındaki repository çeker ve 5 dakikalığına cacheler.
         });
     }
 }
